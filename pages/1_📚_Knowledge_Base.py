@@ -3,9 +3,9 @@ import os
 import subprocess
 
 st.set_page_config(page_title="Knowledge Base", layout="wide")
-st.title("📚 VLSI Knowledge Base Manager")
+st.title("PragyanAI VLSI Knowledge Base Manager")
 
-uploaded_files = st.file_uploader("Upload VLSI Standards (PDF)", type="pdf", accept_multiple_files=True)[cite: 1]
+uploaded_files = st.file_uploader("Upload VLSI Standards (PDF)", type="pdf", accept_multiple_files=True)
 
 if st.button("📁 Process & Index Documents"):
     if uploaded_files:
