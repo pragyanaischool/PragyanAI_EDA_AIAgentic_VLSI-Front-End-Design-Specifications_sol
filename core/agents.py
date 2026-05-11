@@ -34,25 +34,33 @@ master_llm = ChatGroq(
     max_tokens=4096
 )
 
-# RTL Architect: Uses Mixtral for structured code generation
-rtl_architect_llm = ChatGroq(
-    model_name="mixtral-8x7b-32768",
+# Architect: Lead reasoning
+architect_llm = ChatGroq(
+    model_name="llama-3.3-70b-versatile", # ✅ Valid Groq Model
     api_key=GROQ_API_KEY,
-    temperature=0.1,
-    max_tokens=8192
-)
-
-# RTL Critic: Uses Llama 3.1 70B for rigorous logic auditing/linting
-rtl_critic_llm = ChatGroq(
-    model_name="llama-3.1-70b-versatile",
-    api_key=GROQ_API_KEY,
-    temperature=0.0,
+    temperature=0.2,
     max_tokens=4096
 )
 
-# RTL Refiner: Uses Llama 3.3 70B for final synthesis
-rtl_refiner_llm = ChatGroq(
-    model_name="llama-3.3-70b-versatile",
+# Critic: Deterministic auditor
+critic_llm = ChatGroq(
+    model_name="llama-3.1-70b-versatile", # ✅ Valid Groq Model
+    api_key=GROQ_API_KEY,
+    temperature=0.0,
+    max_tokens=2048
+)
+
+# Master: Final synthesis
+master_llm = ChatGroq(
+    model_name="llama-3.3-70b-versatile", # ✅ Valid Groq Model
+    api_key=GROQ_API_KEY,
+    temperature=0.1,
+    max_tokens=4096
+)
+
+# RTL Architect (Added earlier)
+rtl_architect_llm = ChatGroq(
+    model_name="meta-llama/llama-4-scout-17b-16e-instruct", # ✅ Valid Groq Model
     api_key=GROQ_API_KEY,
     temperature=0.1,
     max_tokens=8192
