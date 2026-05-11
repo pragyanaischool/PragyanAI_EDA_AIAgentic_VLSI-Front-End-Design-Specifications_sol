@@ -141,3 +141,17 @@ workflow.add_edge("rtl_verify", END)
 # --- 7. PERSISTENCE ---
 memory = MemorySaver()
 app_graph = workflow.compile(checkpointer=memory)
+
+# --- 8. GRAPH VISUALIZATION HELPER ---
+
+def get_graph_image():
+    """
+    Returns the graph visualization as a PNG byte string.
+    Requires 'pygraphviz' or 'mermaid' setup.
+    """
+    try:
+        # Generates a PNG representation of the graph
+        return app_graph.get_graph().draw_mermaid_png()
+    except Exception as e:
+        print(f"Visualization error: {e}")
+        return None
