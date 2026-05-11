@@ -38,6 +38,8 @@ This platform automates the entire lifecycle—from **RTL Design Specifications 
 **Synthesizable Code** and **Self-Checking Testbenches**—by leveraging specialized AI agents 
 and your local technical library.
 """)
+# Define the image path
+logo_path = "PragyanAI_Transparent.png"
 
 st.info("👈 **Select a page from the sidebar to begin your design journey.**")
 
@@ -80,5 +82,10 @@ st.subheader("System Status")
 st.success("✅ PragyanAI MAGE Framework v3.0 Core Online")
 st.caption("Developed for PragyanAI Educational Initiatives | Bridging the gap between academic theory and industry-standard engineering.")
 
-# Branding/Logo (Optional: Place at bottom of sidebar or main page)
-st.sidebar.image("PragyanAI_Transparent.png", width=200)
+
+# Only show the image if the file actually exists
+if os.path.exists(logo_path):
+    st.sidebar.image(logo_path, width=200)
+else:
+    st.sidebar.warning("Logo file missing")
+
