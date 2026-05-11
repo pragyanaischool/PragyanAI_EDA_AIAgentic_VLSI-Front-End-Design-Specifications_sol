@@ -10,17 +10,23 @@ GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 
 # --- 2. MODEL INITIALIZATIONS ---
 
+# We use Llama 3.3 70B for all agents to ensure consistency and high reasoning capability.
+# This model is fully supported by the Groq API.
+base_model_name = "llama-3.3-70b-versatile"
+
+# --- Specification Phase Agents ---
+
 # Architect: Lead reasoning for RTL Design
 architect_llm = ChatGroq(
-    model_name="llama-3.3-70b-versatile", 
+    model_name=base_model_name, 
     api_key=GROQ_API_KEY,
     temperature=0.2,
     max_tokens=4096
 )
 
-# Critic: Specialized deterministic auditor
+# Critic: Specialized deterministic auditor (Low temperature for strictness)
 critic_llm = ChatGroq(
-    model_name="llama-3.1-70b-versatile", # Optimized for strict auditing
+    model_name=base_model_name, 
     api_key=GROQ_API_KEY,
     temperature=0.0,
     max_tokens=2048
@@ -28,39 +34,33 @@ critic_llm = ChatGroq(
 
 # Master: Final high-quality document synthesis
 master_llm = ChatGroq(
-    model_name="llama-3.3-70b-versatile", 
+    model_name=base_model_name, 
     api_key=GROQ_API_KEY,
     temperature=0.1,
     max_tokens=4096
 )
 
-# Architect: Lead reasoning
-architect_llm = ChatGroq(
-    model_name="llama-3.3-70b-versatile", # ✅ Valid Groq Model
+# --- RTL Generation Phase Agents ---
+
+# RTL Architect: Generates synthesizable Verilog/VHDL
+rtl_architect_llm = ChatGroq(
+    model_name=base_model_name,
     api_key=GROQ_API_KEY,
-    temperature=0.2,
-    max_tokens=4096
+    temperature=0.1,
+    max_tokens=8192
 )
 
-# Critic: Deterministic auditor
-critic_llm = ChatGroq(
-    model_name="llama-3.1-70b-versatile", # ✅ Valid Groq Model
+# RTL Critic: Specialized logic auditor (Linting)
+rtl_critic_llm = ChatGroq(
+    model_name=base_model_name,
     api_key=GROQ_API_KEY,
     temperature=0.0,
-    max_tokens=2048
-)
-
-# Master: Final synthesis
-master_llm = ChatGroq(
-    model_name="llama-3.3-70b-versatile", # ✅ Valid Groq Model
-    api_key=GROQ_API_KEY,
-    temperature=0.1,
     max_tokens=4096
 )
 
-# RTL Architect (Added earlier)
-rtl_architect_llm = ChatGroq(
-    model_name="meta-llama/llama-4-scout-17b-16e-instruct", # ✅ Valid Groq Model
+# RTL Refiner: Merges human feedback and audit results
+rtl_refiner_llm = ChatGroq(
+    model_name=base_model_name,
     api_key=GROQ_API_KEY,
     temperature=0.1,
     max_tokens=8192
