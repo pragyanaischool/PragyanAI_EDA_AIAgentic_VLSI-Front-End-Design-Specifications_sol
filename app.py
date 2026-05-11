@@ -1,13 +1,11 @@
 import streamlit as st
 
-# --- 1. GLOBAL PAGE CONFIGURATION ---
+# --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="PragyanAI VLSI Master",
+    page_title="PragyanAI: Multi-Agent VLSI Suite",
     page_icon="🛡️",
-    layout="wide",
-    initial_sidebar_state="expanded"
+    layout="wide"
 )
-
 # Professional Engineering UI Styling
 st.markdown("""
     <style>
@@ -18,56 +16,69 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- 2. LANDING PAGE CONTENT ---
+# --- 2. GLOBAL SESSION STATE INITIALIZATION ---
+# This ensures that data persists as the user moves between pages
+if "final_rds" not in st.session_state:
+    st.session_state.final_rds = None
+if "final_golden_rtl" not in st.session_state:
+    st.session_state.final_golden_rtl = None
+if "hdl_language" not in st.session_state:
+    st.session_state.hdl_language = "Verilog"
+if "testbench_code" not in st.session_state:
+    st.session_state.testbench_code = None
+
+# --- 3. UI: HERO SECTION ---
 st.image("PragyanAI_Transperent.png")
-st.title("🛡️ PragyanAI: Multi-Agent VLSI Spec Engine")
-st.subheader("Autonomous Hardware Specification Framework with RAG & HITL")
+st.title("🛡️ PragyanAI: Multi-Agent VLSI Design Suite")
+st.subheader("Autonomous Chip Design Framework with RAG, RTL Gen & HITL")
 
 st.markdown("""
 Welcome to **MAGE** (Multi-Agentic General Engine) tailored for VLSI Front-End Design. 
-This platform automates the creation of high-fidelity **RTL Design Specifications (RDS)** by leveraging specialized AI agents and your local technical library[cite: 1].
+This platform automates the entire lifecycle—from **RTL Design Specifications (RDS)** to 
+**Synthesizable Code** and **Self-Checking Testbenches**—by leveraging specialized AI agents 
+and your local technical library.
 """)
 
 st.info("👈 **Select a page from the sidebar to begin your design journey.**")
 
-# --- 3. ARCHITECTURE OVERVIEW ---[cite: 1]
 st.divider()
-st.header("⚡ The Agentic Workflow")
 
-col1, col2, col3 = st.columns(3)
+# --- 4. THE AGENTIC WORKFLOW DESCRIPTION ---
+st.header("⚡ The Full Agentic Workflow")
+
+col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("### 📚 1. Knowledge Base")
-    st.write("""
-    Upload your PDF standards (AXI, PCIe, etc.). 
-    The **RAG Engine** indexes these locally using HuggingFace embeddings for precise grounding[cite: 1].
+    st.markdown("""
+    ### 📚 1. Knowledge Base
+    Upload your PDF standards (AXI, PCIe, RISC-V, etc.). The **RAG Engine** indexes these locally using 
+    HuggingFace embeddings for precise technical grounding.
+
+    ### 🏗️ 2. Spec Designer
+    Enter a problem statement. The **Architect** drafts the RDS, the **Critic** audits for CDC/Protocol errors, 
+    and you provide **Human-in-the-Loop** refinements to create the "Golden Spec".
+
+    ### 💬 3. Spec Chat
+    Interact with your generated specification. Ask questions about design choices or protocol nuances 
+    found in your uploaded documents.
     """)
 
 with col2:
-    st.markdown("### 🏗️ 2. Spec Designer")
-    st.write("""
-    Enter a problem statement. The **Architect** drafts the spec, the **Critic** audits for CDC/Protocol errors, 
-    and you provide **Human-in-the-Loop** refinements[cite: 1].
-    """)
-
-with col3:
-    st.markdown("### 💬 3. Spec Chat")
-    st.write("""
-    Interact with your generated specification. Ask questions about design choices 
-    or protocol nuances found in your uploaded documents[cite: 1].
-    """)
-
-# --- 4. QUICK START GUIDE ---[cite: 1]
-st.divider()
-with st.expander("🛠️ System Requirements & Setup"):
     st.markdown("""
-    1. **API Keys**: Ensure your `.env` file contains a valid `GROQ_API_KEY`[cite: 1].
-    2. **Local RAG**: Upload documents in the **Knowledge Base** page before starting a design[cite: 1].
-    3. **Models**:
-        * **Architect**: llama-3.3-70b-versatile (Reasoning)[cite: 1]
-        * **Critic**: openai/gpt-oss-120b (Deterministic Audit)[cite: 1]
-        * **Master**: meta-llama/llama-4-scout-17b-16e-instruct (Synthesis)[cite: 1]
+    ### 🛠️ 4. RTL Generator
+    Translate your RDS into production-ready **Verilog** or **VHDL**. Includes an automated **Linting Agent** to catch "design killer" bugs like unintentional latches.
+
+    ### 🧪 5. Verification Bench
+    Generate a **Self-Checking Testbench**. This phase includes a **DV Lead Agent** that explains the 
+    rationale behind every test case (Corner cases, Reset, and Stress tests).
     """)
 
-st.caption("Developed for PragyanAI Educational Initiatives | MAGE Framework v2.0")
-      
+st.divider()
+
+# --- 5. SYSTEM STATUS & FOOTER ---
+st.subheader("System Status")
+st.success("✅ PragyanAI MAGE Framework v3.0 Core Online")
+st.caption("Developed for PragyanAI Educational Initiatives | Bridging the gap between academic theory and industry-standard engineering.")
+
+# Branding/Logo (Optional: Place at bottom of sidebar or main page)
+st.sidebar.image("PragyanAI_Transparent.png", width=200)
