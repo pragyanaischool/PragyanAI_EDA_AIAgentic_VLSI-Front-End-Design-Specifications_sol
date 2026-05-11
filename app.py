@@ -19,7 +19,8 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # --- 2. LANDING PAGE CONTENT ---
-st.title("🛡️ MAGE: Multi-Agent VLSI Spec Engine")
+st.image("")
+st.title("🛡️ PragyanAI: Multi-Agent VLSI Spec Engine")
 st.subheader("Autonomous Hardware Specification Framework with RAG & HITL")
 
 st.markdown("""
