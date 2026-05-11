@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+from core.graph import get_graph_image # Import the visualization helper
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
     page_title="PragyanAI: Multi-Agent VLSI Suite",
@@ -56,7 +57,7 @@ st.divider()
 # --- 4. THE AGENTIC WORKFLOW DESCRIPTION ---
 st.header("⚡ The Full Agentic Workflow")
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 
 with col1:
     st.markdown("""
@@ -83,7 +84,23 @@ with col2:
     rationale behind every test case (Corner cases, Reset, and Stress tests).
     """)
 
+with col3:
+    # Display the Graph Visualization
+    with st.expander("🔍 View MAGE Architecture Logic", expanded=True):
+        graph_img = get_graph_image()
+        if graph_img:
+            st.image(graph_img, caption="PragyanAI MAGE: Multi-Agent Directed Acyclic Graph (DAG)")
+        else:
+            st.info("Graph visualization is currently being synthesized...")
+
+    st.markdown("""
+    The diagram above represents the **MAGE** state machine. Each node is a specialized agent 
+    (Architect, Critic, Master, RTL, Verify) that passes design tokens through a centralized 
+    shared state, stopping only at **Human-in-the-Loop** checkpoints.
+    """)
+
 st.divider()
+
 
 # --- 5. SYSTEM STATUS & FOOTER ---
 st.subheader("System Status")
