@@ -20,7 +20,7 @@ if "rtl_audit" not in st.session_state:
 if "final_golden_rtl" not in st.session_state:
     st.session_state.final_golden_rtl = None
 
-# --- 3. INPUT SECTION ---
+# --- 3. INPUT SECTION (Settings & File Upload) ---
 with st.container():
     col_settings, col_input = st.columns([1, 3])
     
@@ -32,23 +32,34 @@ with st.container():
             help="Select the hardware description language for generation."
         )
         
-        st.info("💡 Tip: Ensure your RDS includes a clear Port List and Clock/Reset strategy for best results.")
+        st.divider()
+        st.info("💡 **Tip:** Ensure your RDS includes a clear Port List and Clock/Reset strategy for best results.")
 
     with col_input:
         st.subheader("Source Specification (RDS)")
-        # Automatically pull from Spec Designer if available, otherwise allow manual paste
-        default_rds = st.session_state.get("final_rds", "")
-        rds_content = st.text_area(
-            "Paste RDS Content Here:",
-            value=default_rds,
-            height=250,
-            placeholder="Paste the markdown specification here..."
-        )
+        
+        # New Feature: .MD File Upload
+        uploaded_file = st.file_uploader("Upload RDS Specification (.md)", type=["md"])
+        
+        # Logic to handle either Upload or Paste
+        if uploaded_file is not None:
+            # Read content from uploaded file
+            rds_content = uploaded_file.getvalue().decode("utf-8")
+            st.success(f"Loaded: {uploaded_file.name}")
+        else:
+            # Fallback to manual paste or session state from Spec Designer
+            default_rds = st.session_state.get("final_rds", "")
+            rds_content = st.text_area(
+                "Paste RDS Content Here:",
+                value=default_rds,
+                height=250,
+                placeholder="Paste the markdown specification here..."
+            )
 
 # --- 4. GENERATION PIPELINE ---
 if st.button("🚀 Generate RTL Code"):
-    if not rds_content:
-        st.error("Please provide an RDS document first.")
+    if not rds_content.strip():
+        st.error("Please provide an RDS document by uploading a file or pasting text.")
     else:
         with st.status("🛠️ Architecting RTL...", expanded=True) as status:
             # Step A: Architect Agent Generates Code
@@ -85,21 +96,22 @@ if st.session_state.current_rtl:
         if "CRITICAL" in st.session_state.rtl_audit:
             st.error(st.session_state.rtl_audit)
         else:
-            st.warning(st.session_state.rtl_audit)
+            st.info(st.session_state.rtl_audit)
 
     # Human-in-the-Loop Refinement
     st.divider()
     st.subheader("🙋 Human-in-the-Loop Refinement")
-    st.write("Address audit concerns or request architectural changes (e.g., 'Change to a Booth multiplier'):")
+    st.write("Address audit concerns or request architectural changes:")
     
-    human_refinement = st.text_input("Enter suggestions/corrections:", placeholder="Change reset to asynchronous...")
+    human_refinement = st.text_input("Enter suggestions (e.g., 'Use a behavioral 32-bit adder instead'):")
     
     if st.button("🪄 Apply Refinements & Finalize"):
         with st.spinner("Refining code with Master Agent..."):
             final_code = refiner_chain.invoke({
+                "language": hdl_language,
                 "code": st.session_state.current_rtl,
                 "critique": st.session_state.rtl_audit,
-                "feedback": human_refinement if human_refinement else "No additional changes, just clean up the code."
+                "feedback": human_refinement if human_refinement else "Finalize code."
             })
             st.session_state.final_golden_rtl = final_code
             st.success("Golden RTL Generated!")
@@ -114,7 +126,7 @@ if st.session_state.final_golden_rtl:
     st.download_button(
         label=f"📥 Download {hdl_language} Source",
         data=st.session_state.final_golden_rtl,
-        file_name=f"vlsi_design_final{ext}",
+        file_name=f"pragyan_design_final{ext}",
         mime="text/plain"
     )
 
