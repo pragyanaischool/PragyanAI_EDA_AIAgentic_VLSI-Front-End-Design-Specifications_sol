@@ -17,7 +17,7 @@ class VLSIRAGEngine:
     cost-effective retrieval of hardware specifications.
     """
     def __init__(self, persist_directory: str = "./data/chroma_db"):
-        self.persist_directory = persist_directory[cite: 1]
+        self.persist_directory = persist_directory
         
         # Initialize the embedding model (HuggingFace Local)
         # 'all-MiniLM-L6-v2' provides excellent performance/latency ratio for technical docs
@@ -49,18 +49,18 @@ class VLSIRAGEngine:
         # Format the results into a structured context string[cite: 1]
         context_parts = []
         for i, doc in enumerate(docs):
-            source = doc.metadata.get("source", "Unknown Spec")[cite: 1]
-            page = doc.metadata.get("page", "N/A")[cite: 1]
-            content = doc.page_content.strip().replace("\n", " ")[cite: 1]
+            source = doc.metadata.get("source", "Unknown Spec")
+            page = doc.metadata.get("page", "N/A")
+            content = doc.page_content.strip().replace("\n", " ")
             
             context_parts.append(
                 f"[Document Segment {i+1}]\n"
                 f"Source: {source} (Page {page})\n"
                 f"Content: {content}\n"
                 "-----------------------------------"
-            )[cite: 1]
+            )
             
-        return "\n\n".join(context_parts)[cite: 1]
+        return "\n\n".join(context_parts)
 
     def get_retriever(self):
         """
@@ -68,7 +68,7 @@ class VLSIRAGEngine:
         """
         if not self.vector_db:
             raise FileNotFoundError("Vector DB not initialized. Ensure /data/chroma_db exists.")[cite: 1]
-        return self.vector_db.as_retriever(search_kwargs={"k": 4})[cite: 1]
+        return self.vector_db.as_retriever(search_kwargs={"k": 4})
 
 # Global instance for easy import into the LangGraph state machine[cite: 1]
 rag_engine = VLSIRAGEngine()
@@ -77,5 +77,5 @@ def get_context(query: str) -> str:
     """
     Helper wrapper for the Streamlit UI and Agents.[cite: 1]
     """
-    return rag_engine.retrieve_context(query)[cite: 1]
+    return rag_engine.retrieve_context(query)
     
