@@ -64,9 +64,9 @@ with st.expander("🛠️ System Requirements & Setup"):
     1. **API Keys**: Ensure your `.env` file contains a valid `GROQ_API_KEY`[cite: 1].
     2. **Local RAG**: Upload documents in the **Knowledge Base** page before starting a design[cite: 1].
     3. **Models**:
-        * **Architect**: Llama-3.3-70b (Reasoning)[cite: 1]
-        * **Critic**: Llama-3.1-70b (Deterministic Audit)[cite: 1]
-        * **Master**: Llama-3.3-70b (Synthesis)[cite: 1]
+        * **Architect**: llama-3.3-70b-versatile (Reasoning)[cite: 1]
+        * **Critic**: openai/gpt-oss-120b (Deterministic Audit)[cite: 1]
+        * **Master**: meta-llama/llama-4-scout-17b-16e-instruct (Synthesis)[cite: 1]
     """)
 
 st.caption("Developed for PragyanAI Educational Initiatives | MAGE Framework v2.0")
