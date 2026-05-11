@@ -10,7 +10,7 @@ load_dotenv()
 # Initialize the Groq Llama 3 70B model
 # High temperature is avoided (0.1) to ensure technical precision for VLSI specs
 llm = ChatGroq(
-    model_name="llama3-70b-8192", 
+    model_name="llama-3.3-70b-versatile", 
     temperature=0.1,
     max_tokens=4096
 )
