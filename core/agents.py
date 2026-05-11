@@ -65,6 +65,12 @@ rtl_refiner_llm = ChatGroq(
     temperature=0.1,
     max_tokens=8192
 )
+# Verification Agent: Generates the Testbench
+verification_llm = ChatGroq(
+    model_name="llama-3.3-70b-versatile", 
+    api_key=GROQ_API_KEY,
+    temperature=0.1
+)
 
 # --- 3. SYSTEM PROMPTS (SPECIFICATION PHASE) ---
 
@@ -171,4 +177,28 @@ def refine_rtl_code(language, code, critique, feedback):
         "critique": critique,
         "feedback": feedback
     })
-  
+ # 1. Testbench Generation Prompt
+tb_system_prompt = """You are a Senior Silicon Validation Engineer. 
+Generate a self-checking {language} testbench for the provided RTL.
+- Include a 100MHz clock generator and reset logic.
+- Use tasks/procedures for stimulus injection.
+- Implement 'scoreboarding' to compare RTL output against expected results.
+- Ensure compliance with the RDS Verification Plan."""
+
+# 2. Test Case Explanation Prompt
+test_explainer_prompt = """You are a DV Lead. Explain the 'Why' behind each test case in the verification plan.
+Focus on:
+- Corner cases (overflow, zero, max values).
+- Functional coverage (checking all logic paths).
+- Timing/Latency (verifying the 4-cycle requirement)."""
+
+# Chains
+tb_chain = ChatPromptTemplate.from_messages([
+    ("system", tb_system_prompt),
+    ("user", "RTL Code:\n{code}\n\nRDS Context:\n{rds_content}\n\nLanguage: {language}")
+]) | verification_llm | StrOutputParser()
+
+explainer_chain = ChatPromptTemplate.from_messages([
+    ("system", test_explainer_prompt),
+    ("user", "Verify these cases for {language} RTL:\n{code}")
+]) | verification_llm | StrOutputParser() 
