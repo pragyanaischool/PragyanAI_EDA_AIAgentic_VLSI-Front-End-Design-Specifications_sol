@@ -3,6 +3,7 @@ from langchain_groq import ChatGroq
 from core.rag import get_context
 
 st.set_page_config(page_title="Spec Chat", layout="wide")
+st.image("PragyanAI_Transperent.png")
 st.title(" PragyanAI VLSI Design Assistant")
 
 if "chat_history" not in st.session_state: st.session_state.chat_history = []
