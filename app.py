@@ -1,5 +1,5 @@
 import streamlit as st
-
+import os
 # --- 1. PAGE CONFIGURATION ---
 st.set_page_config(
     page_title="PragyanAI: Multi-Agent VLSI Suite",
