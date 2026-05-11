@@ -109,3 +109,92 @@ def finalize_spec(draft, critique, human_input):
         "human_input": human_input
     })
     
+# --- 6. ADDITIONAL MODELS FOR RTL GENERATION ---
+# Using Mixtral and Llama 3.1 for diverse architectural perspectives
+
+# RTL Architect: Uses Mixtral for high-throughput code structure
+rtl_architect_llm = ChatGroq(
+    model_name="mixtral-8x7b-32768",
+    api_key=GROQ_API_KEY,
+    temperature=0.1,
+    max_tokens=8192
+)
+
+# RTL Critic: Uses Llama 3.1 70B for rigorous logic auditing
+rtl_critic_llm = ChatGroq(
+    model_name="llama-3.1-70b-versatile",
+    api_key=GROQ_API_KEY,
+    temperature=0.0,
+    max_tokens=4096
+)
+
+# RTL Refiner: Uses Llama 3.3 70B for final synthesis and cleanup
+rtl_refiner_llm = ChatGroq(
+    model_name="llama-3.3-70b-versatile",
+    api_key=GROQ_API_KEY,
+    temperature=0.1,
+    max_tokens=8192
+)
+
+# --- 7. RTL SYSTEM PROMPTS ---
+
+rtl_architect_system_prompt = """You are a Lead RTL Engineer. Generate synthesizable {language} code.
+Strictly adhere to the provided RTL Design Specification (RDS).
+
+REQUIREMENTS:
+- Match all port names, widths, and types from the ICD section.
+- Implement the micro-architecture pipeline stages exactly.
+- Use the specified reset polarity and clocking strategy.
+- Provide clear comments for each logic block."""
+
+rtl_critic_system_prompt = """You are a Senior Design Verification Engineer. 
+Audit the following {language} code for hardware "design killers":
+- Combinational loops or unintentional latches.
+- Incorrect blocking (=) vs non-blocking (<=) assignments.
+- Missing signals in sensitivity lists.
+- Clock domain crossing (CDC) hazards.
+
+Flag errors as 'CRITICAL' if they prevent hardware synthesis or cause simulation mismatches."""
+
+rtl_refiner_system_prompt = """You are the RTL Synthesis Master. 
+Consolidate the original {language} code, the Critic's linting report, and Human feedback.
+Deliver the final 'Golden RTL' that is optimized, bug-free, and fully synthesizable."""
+
+# --- 8. RTL LCEL CHAINS ---
+
+rtl_architect_prompt = ChatPromptTemplate.from_messages([
+    ("system", rtl_architect_system_prompt),
+    ("user", "Target Language: {language}\n\nRDS Document:\n{rds_content}")
+])
+
+rtl_critic_prompt = ChatPromptTemplate.from_messages([
+    ("system", rtl_critic_system_prompt),
+    ("user", "Review this {language} code:\n\n{code}")
+])
+
+rtl_refiner_prompt = ChatPromptTemplate.from_messages([
+    ("system", rtl_refiner_system_prompt),
+    ("user", "Original Code: {code}\nLint Report: {critique}\nHuman Feedback: {feedback}\nLanguage: {language}")
+])
+
+rtl_chain = rtl_architect_prompt | rtl_architect_llm | StrOutputParser()
+lint_chain = rtl_critic_prompt | rtl_critic_llm | StrOutputParser()
+refiner_chain = rtl_refiner_prompt | rtl_refiner_llm | StrOutputParser()
+
+# --- 9. RTL HELPER FUNCTIONS ---
+
+def generate_rtl_code(language, rds_content):
+    """Generates the first draft of HDL code and an immediate audit."""
+    code = rtl_chain.invoke({"language": language, "rds_content": rds_content})
+    critique = lint_chain.invoke({"language": language, "code": code})
+    return code, critique
+
+def refine_rtl_code(language, code, critique, feedback):
+    """Synthesizes the final HDL code based on all inputs."""
+    return refiner_chain.invoke({
+        "language": language,
+        "code": code,
+        "critique": critique,
+        "feedback": feedback
+    })
+    
