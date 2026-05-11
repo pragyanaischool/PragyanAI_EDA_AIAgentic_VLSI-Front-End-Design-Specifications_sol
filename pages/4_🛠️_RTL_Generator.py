@@ -8,7 +8,7 @@ st.set_page_config(
     page_icon="🛠️",
     layout="wide"
 )
-st.image("")
+st.image("PragyanAI_Transperent.png")
 st.title(" PragyanAI RTL Code Generator")
 st.caption("Generate Synthesizable Verilog/VHDL from RTL Design Specifications (RDS)")
 
