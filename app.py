@@ -38,11 +38,8 @@ This platform automates the entire lifecycle—from **RTL Design Specifications 
 **Synthesizable Code** and **Self-Checking Testbenches**—by leveraging specialized AI agents 
 and your local technical library.
 """)
-# Define the image path
-logo_path = "PragyanAI_Transparent.png"
 
 st.info("👈 **Select a page from the sidebar to begin your design journey.**")
-
 st.divider()
 
 # --- 4. THE AGENTIC WORKFLOW DESCRIPTION ---
@@ -52,25 +49,25 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.markdown("""
-    ### 📚 1. Knowledge Base
+    ### 1. Knowledge Base
     Upload your PDF standards (AXI, PCIe, RISC-V, etc.). The **RAG Engine** indexes these locally using 
     HuggingFace embeddings for precise technical grounding.
 
-    ### 🏗️ 2. Spec Designer
+    ### 2. Spec Designer
     Enter a problem statement. The **Architect** drafts the RDS, the **Critic** audits for CDC/Protocol errors, 
     and you provide **Human-in-the-Loop** refinements to create the "Golden Spec".
 
-    ### 💬 3. Spec Chat
+    ### 3. Spec Chat
     Interact with your generated specification. Ask questions about design choices or protocol nuances 
     found in your uploaded documents.
     """)
 
 with col2:
     st.markdown("""
-    ### 🛠️ 4. RTL Generator
+    ### 4. RTL Generator
     Translate your RDS into production-ready **Verilog** or **VHDL**. Includes an automated **Linting Agent** to catch "design killer" bugs like unintentional latches.
 
-    ### 🧪 5. Verification Bench
+    ### 5. Verification Bench
     Generate a **Self-Checking Testbench**. This phase includes a **DV Lead Agent** that explains the 
     rationale behind every test case (Corner cases, Reset, and Stress tests).
     """)
@@ -82,6 +79,8 @@ st.subheader("System Status")
 st.success("✅ PragyanAI MAGE Framework v3.0 Core Online")
 st.caption("Developed for PragyanAI Educational Initiatives | Bridging the gap between academic theory and industry-standard engineering.")
 
+# Define the image path
+logo_path = "PragyanAI_Transperent.png"
 
 # Only show the image if the file actually exists
 if os.path.exists(logo_path):
