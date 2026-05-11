@@ -3,7 +3,8 @@ from core.agents import tb_chain, explainer_chain
 
 st.set_page_config(page_title="Verification Bench", page_icon="🧪", layout="wide")
 
-st.title("🧪 PragyanAI Verification Bench")
+st.image("PragyanAI_Transperent.png")
+st.title(" PragyanAI Verification Bench")
 st.caption("Generate Self-Checking Testbenches & Test Case Rationales")
 
 # 1. Retrieve Data from previous steps
