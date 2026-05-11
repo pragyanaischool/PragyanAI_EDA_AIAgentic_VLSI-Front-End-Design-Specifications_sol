@@ -5,5 +5,6 @@ langchain-groq
 langchain-community
 chromadb
 pypdf
+sentence-transformers
 python-dotenv
 tiktoken
