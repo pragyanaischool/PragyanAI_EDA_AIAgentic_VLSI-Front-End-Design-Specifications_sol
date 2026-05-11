@@ -19,7 +19,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # --- 2. LANDING PAGE CONTENT ---
-st.image("")
+st.image("PragyanAI_Transperent.png")
 st.title("🛡️ PragyanAI: Multi-Agent VLSI Spec Engine")
 st.subheader("Autonomous Hardware Specification Framework with RAG & HITL")
 
