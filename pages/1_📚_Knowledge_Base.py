@@ -3,6 +3,7 @@ import os
 import subprocess
 
 st.set_page_config(page_title="Knowledge Base", layout="wide")
+st.image("PragyanAI_Transperent.png")
 st.title("PragyanAI VLSI Knowledge Base Manager")
 
 uploaded_files = st.file_uploader("Upload VLSI Standards (PDF)", type="pdf", accept_multiple_files=True)
