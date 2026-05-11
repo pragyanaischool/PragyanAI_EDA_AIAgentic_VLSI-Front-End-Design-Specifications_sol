@@ -8,6 +8,7 @@ st.set_page_config(page_title="Spec Designer", layout="wide")
 if "thread_id" not in st.session_state: st.session_state.thread_id = str(uuid.uuid4())
 if "graph_state" not in st.session_state: st.session_state.graph_state = None
 
+st.image("PragyanAI_Transperent.png")
 st.title(" PragyanAI RTL Design Specification Generator")
 
 if st.session_state.graph_state is None:
