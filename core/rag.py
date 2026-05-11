@@ -90,13 +90,19 @@ class VLSIRAGEngine:
             raise FileNotFoundError("Vector DB not initialized. Please run ingestion first.")
         return self.vector_db.as_retriever(search_kwargs={"k": 4})
 
-# --- GLOBAL INITIALIZATION ---
-# Fixes NameError by ensuring rag_engine exists when get_context is called
-rag_engine = VLSIRAGEngine()
+# --- GLOBAL INITIALIZATION ---#
+
+@st.cache_resource
+def get_rag_engine():
+    """
+    Initializes the RAG engine once and caches it.
+    This prevents reloading the embedding model on every page rerun.
+    """
+    return VLSIRAGEngine()
 
 def get_context(query: str) -> str:
     """
-    Primary wrapper used by Spec_Designer.py and Spec_Chat.py.
+    Primary wrapper used by other pages to get technical context.
     """
-    return rag_engine.retrieve_context(query)
-    
+    engine = get_rag_engine()
+    return engine.retrieve_context(query)
