@@ -30,6 +30,7 @@ if "testbench_code" not in st.session_state:
 # --- 3. UI: HERO SECTION ---
 st.image("PragyanAI_Transperent.png")
 st.title("🛡️ PragyanAI: Multi-Agent VLSI Design Suite")
+
 st.subheader("Autonomous Chip Design Framework with RAG, RTL Gen & HITL")
 
 st.markdown("""
@@ -40,6 +41,16 @@ and your local technical library.
 """)
 
 st.info("👈 **Select a page from the sidebar to begin your design journey.**")
+
+# Define the image path
+logo_path = "PragyanAI_Transperent.png"
+
+# Only show the image if the file actually exists
+if os.path.exists(logo_path):
+    st.sidebar.image(logo_path, width=200)
+else:
+    st.sidebar.warning("Logo file missing")
+    
 st.divider()
 
 # --- 4. THE AGENTIC WORKFLOW DESCRIPTION ---
@@ -79,12 +90,4 @@ st.subheader("System Status")
 st.success("✅ PragyanAI MAGE Framework v3.0 Core Online")
 st.caption("Developed for PragyanAI Educational Initiatives | Bridging the gap between academic theory and industry-standard engineering.")
 
-# Define the image path
-logo_path = "PragyanAI_Transperent.png"
-
-# Only show the image if the file actually exists
-if os.path.exists(logo_path):
-    st.sidebar.image(logo_path, width=200)
-else:
-    st.sidebar.warning("Logo file missing")
 
