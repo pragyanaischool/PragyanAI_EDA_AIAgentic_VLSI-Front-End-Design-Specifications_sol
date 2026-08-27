@@ -9,7 +9,7 @@ st.title(" PragyanAI VLSI Design Assistant")
 if "chat_history" not in st.session_state: st.session_state.chat_history = []
 
 # Chatbot initialization using Llama 3.3 70B
-chat_llm = ChatGroq(model_name="llama-3.3-70b-versatile", temperature=0.5)
+chat_llm = ChatGroq(model_name="openai/gpt-oss-120b", temperature=0.5,max_completion_tokens=4096)
 
 query = st.chat_input("Ask about the specification or protocols...")
 
