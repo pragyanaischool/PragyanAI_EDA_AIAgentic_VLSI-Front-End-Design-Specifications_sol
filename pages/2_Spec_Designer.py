@@ -73,8 +73,15 @@ else:
                 
                 # Resumes graph from checkpoint and runs the 'master_node'
                 # This combines Draft + Critique + Your Feedback
+                #updated_state = app_graph.invoke(
+                #    {"human_feedback": q_logic}, 
+                #    config=config
+                #)
                 updated_state = app_graph.invoke(
-                    {"human_feedback": q_logic}, 
+                    {
+                        "user_input": st.session_state.get("user_input", q_logic),
+                        "human_feedback": q_logic
+                    },
                     config=config
                 )
                 
