@@ -12,7 +12,7 @@ GROQ_API_KEY = st.secrets["GROQ_API_KEY"]
 
 # We use Llama 3.3 70B for all agents to ensure consistency and high reasoning capability.
 # This model is fully supported by the Groq API.
-base_model_name = "llama-3.3-70b-versatile"
+base_model_name = "openai/gpt-oss-120b"
 
 # --- Specification Phase Agents ---
 
