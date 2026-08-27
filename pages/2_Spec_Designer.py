@@ -80,7 +80,8 @@ else:
                 updated_state = app_graph.invoke(
                     {
                         "user_input": st.session_state.get("user_input", q_logic),
-                        "human_feedback": q_logic
+                        "human_feedback": q_logic,
+                        "rag_context": st.session_state.get("rag_context", "")
                     },
                     config=config
                 )
