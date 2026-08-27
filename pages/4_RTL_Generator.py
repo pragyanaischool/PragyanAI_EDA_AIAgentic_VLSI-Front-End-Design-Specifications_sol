@@ -33,7 +33,7 @@ with st.container():
         )
         
         st.divider()
-        st.info("💡 **Tip:** Ensure your RDS includes a clear Port List and Clock/Reset strategy for best results.")
+        st.info(" **Tip:** Ensure your RDS includes a clear Port List and Clock/Reset strategy for best results.")
 
     with col_input:
         st.subheader("Source Specification (RDS)")
@@ -57,11 +57,11 @@ with st.container():
             )
 
 # --- 4. GENERATION PIPELINE ---
-if st.button("🚀 Generate RTL Code"):
+if st.button(" Generate RTL Code"):
     if not rds_content.strip():
         st.error("Please provide an RDS document by uploading a file or pasting text.")
     else:
-        with st.status("🛠️ Architecting RTL...", expanded=True) as status:
+        with st.status(" Architecting RTL...", expanded=True) as status:
             # Step A: Architect Agent Generates Code
             st.write("Agent 1: Architecting logic structure...")
             initial_code = rtl_chain.invoke({
@@ -88,11 +88,11 @@ if st.session_state.current_rtl:
     view_col, audit_col = st.columns(2)
     
     with view_col:
-        st.subheader(f"📑 Generated {hdl_language}")
+        st.subheader(f" Generated {hdl_language}")
         st.code(st.session_state.current_rtl, language=hdl_language.lower())
         
     with audit_col:
-        st.subheader("🧐 Design Audit Report")
+        st.subheader(" Design Audit Report")
         if "CRITICAL" in st.session_state.rtl_audit:
             st.error(st.session_state.rtl_audit)
         else:
@@ -100,12 +100,12 @@ if st.session_state.current_rtl:
 
     # Human-in-the-Loop Refinement
     st.divider()
-    st.subheader("🙋 Human-in-the-Loop Refinement")
+    st.subheader(" Human-in-the-Loop Refinement")
     st.write("Address audit concerns or request architectural changes:")
     
     human_refinement = st.text_input("Enter suggestions (e.g., 'Use a behavioral 32-bit adder instead'):")
     
-    if st.button("🪄 Apply Refinements & Finalize"):
+    if st.button(" Apply Refinements & Finalize"):
         with st.spinner("Refining code with Master Agent..."):
             final_code = refiner_chain.invoke({
                 "language": hdl_language,
@@ -119,18 +119,18 @@ if st.session_state.current_rtl:
 # --- 6. FINAL OUTPUT & DOWNLOAD ---
 if st.session_state.final_golden_rtl:
     st.divider()
-    st.subheader("🏆 Golden RTL Code")
+    st.subheader(" Golden RTL Code")
     st.code(st.session_state.final_golden_rtl, language=hdl_language.lower())
     
     ext = ".v" if hdl_language == "Verilog" else ".vhd"
     st.download_button(
-        label=f"📥 Download {hdl_language} Source",
+        label=f" Download {hdl_language} Source",
         data=st.session_state.final_golden_rtl,
         file_name=f"pragyan_design_final{ext}",
         mime="text/plain"
     )
 
-    if st.button("🔄 Start New Design"):
+    if st.button(" Start New Design"):
         st.session_state.current_rtl = None
         st.session_state.rtl_audit = None
         st.session_state.final_golden_rtl = None
