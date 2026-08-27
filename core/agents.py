@@ -21,7 +21,7 @@ architect_llm = ChatGroq(
     model_name=base_model_name, 
     api_key=GROQ_API_KEY,
     temperature=0.2,
-    max_tokens=16384
+    max_tokens=4096
 )
 
 # Critic: Specialized deterministic auditor (Low temperature for strictness)
@@ -29,7 +29,7 @@ critic_llm = ChatGroq(
     model_name=base_model_name, 
     api_key=GROQ_API_KEY,
     temperature=0.0,
-    max_tokens=16384
+    max_tokens=4096
 )
 
 # Master: Final high-quality document synthesis
@@ -37,7 +37,7 @@ master_llm = ChatGroq(
     model_name=base_model_name, 
     api_key=GROQ_API_KEY,
     temperature=0.1,
-    max_tokens=16384
+    max_tokens=4096
 )
 
 # --- RTL Generation Phase Agents ---
@@ -47,7 +47,7 @@ rtl_architect_llm = ChatGroq(
     model_name=base_model_name,
     api_key=GROQ_API_KEY,
     temperature=0.1,
-    max_tokens=16384
+    max_tokens=4096
 )
 
 # RTL Critic: Specialized logic auditor (Linting)
@@ -55,7 +55,7 @@ rtl_critic_llm = ChatGroq(
     model_name=base_model_name,
     api_key=GROQ_API_KEY,
     temperature=0.0,
-    max_tokens=16384
+    max_tokens=4096
 )
 
 # RTL Refiner: Merges human feedback and audit results
@@ -63,13 +63,14 @@ rtl_refiner_llm = ChatGroq(
     model_name=base_model_name,
     api_key=GROQ_API_KEY,
     temperature=0.1,
-    max_tokens=16384
+    max_tokens=4096
 )
 # Verification Agent: Generates the Testbench
 verification_llm = ChatGroq(
     model_name="openai/gpt-oss-120b", 
     api_key=GROQ_API_KEY,
-    temperature=0.1
+    temperature=0.1,
+    max_tokens=4096
 )
 
 # --- 3. SYSTEM PROMPTS (SPECIFICATION PHASE) ---
