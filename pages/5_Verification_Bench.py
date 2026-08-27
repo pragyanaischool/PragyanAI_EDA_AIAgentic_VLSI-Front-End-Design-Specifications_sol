@@ -25,7 +25,7 @@ with col_code:
 
 with col_plan:
     st.subheader("Verification Strategy")
-    if st.button("🚀 Generate Testbench & Analysis"):
+    if st.button(" Generate Testbench & Analysis"):
         with st.spinner("Synthesizing Testbench..."):
             # Run parallel chains
             st.session_state.testbench = tb_chain.invoke({
@@ -43,17 +43,17 @@ if "testbench" in st.session_state:
     st.divider()
     
     # Explain the 'Why'
-    st.subheader("🧐 Test Case Rationale")
+    st.subheader(" Test Case Rationale")
     st.info(st.session_state.explanation)
     
     # The Code
-    st.subheader(f"📑 Self-Checking {hdl_lang} Testbench")
+    st.subheader(f" Self-Checking {hdl_lang} Testbench")
     st.code(st.session_state.testbench, language=hdl_lang.lower())
     
     # Download
     ext = ".v" if hdl_lang == "Verilog" else ".vhd"
     st.download_button(
-        label=f"📥 Download {hdl_lang} Testbench",
+        label=f" Download {hdl_lang} Testbench",
         data=st.session_state.testbench,
         file_name=f"tb_pragyan_design{ext}",
         mime="text/plain"
