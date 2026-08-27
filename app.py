@@ -30,7 +30,7 @@ if "testbench_code" not in st.session_state:
 
 # --- 3. UI: HERO SECTION ---
 st.image("PragyanAI_Transperent.png")
-st.title("🛡️ PragyanAI: Multi-Agent VLSI Design Suite")
+st.title("PragyanAI: Multi-Agent VLSI Design Suite")
 
 st.subheader("Autonomous Chip Design Framework with RAG, RTL Gen & HITL")
 
@@ -86,7 +86,7 @@ with col2:
 
 with col3:
     # Display the Graph Visualization
-    with st.expander("🔍 View MAGE Architecture Logic", expanded=True):
+    with st.expander(" View MAGE Architecture Logic", expanded=True):
         graph_img = get_graph_image()
         if graph_img:
             st.image(graph_img, caption="PragyanAI MAGE: Multi-Agent Directed Acyclic Graph (DAG)")
