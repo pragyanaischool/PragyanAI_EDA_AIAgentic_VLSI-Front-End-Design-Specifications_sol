@@ -21,7 +21,7 @@ if st.session_state.graph_state is None:
                                placeholder="e.g., A 32-bit pipelined multiplier with AXI-Lite interface...",
                                height=150)
     
-    if st.button("🚀 Run Multi-Agent Pipeline"):
+    if st.button(" Run Multi-Agent Pipeline"):
         if not user_intent.strip():
             st.warning("Please enter a hardware requirement.")
         else:
@@ -47,11 +47,11 @@ else:
     col1, col2 = st.columns([3, 2])
     
     with col1:
-        st.subheader("🏗️ Architect's Draft")
+        st.subheader(" Architect's Draft")
         st.markdown(state.get("draft", "No draft generated."))
     
     with col2:
-        st.subheader("🧐 Critic's Audit")
+        st.subheader(" Critic's Audit")
         critique = state.get("critique", "No critique available.")
         if "CRITICAL" in critique:
             st.error(critique)
@@ -61,13 +61,13 @@ else:
     st.divider()
     
     # 4. FINALIZATION PHASE: MASTER AGENT
-    st.subheader("🙋 Human-in-the-Loop: Refine Details")
+    st.subheader(" Human-in-the-Loop: Refine Details")
     q_logic = st.text_input("Manual Overrides (e.g., 'Change reset to active-high', 'Add a 16-deep FIFO'):")
     
     col_btn1, col_btn2 = st.columns(2)
     
     with col_btn1:
-        if st.button("🪄 Finalize Golden RDS"):
+        if st.button(" Finalize Golden RDS"):
             with st.spinner("Synthesizing Golden Specification..."):
                 config = {"configurable": {"thread_id": st.session_state.thread_id}}
                 
@@ -85,13 +85,13 @@ else:
     with col_btn2:
         if st.session_state.final_rds:
             st.download_button(
-                label="📥 Download RDS (.md)",
+                label=" Download RDS (.md)",
                 data=st.session_state.final_rds,
                 file_name="Master_RDS.md",
                 mime="text/markdown"
             )
 
-    if st.button("🔄 Start New Design"):
+    if st.button(" Start New Design"):
         st.session_state.graph_state = None
         st.session_state.final_rds = None
         st.session_state.thread_id = str(uuid.uuid4())
