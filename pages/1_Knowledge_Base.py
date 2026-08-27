@@ -8,7 +8,7 @@ st.title("PragyanAI VLSI Knowledge Base Manager")
 
 uploaded_files = st.file_uploader("Upload VLSI Standards (PDF)", type="pdf", accept_multiple_files=True)
 
-if st.button("📁 Process & Index Documents"):
+if st.button(" Process & Index Documents"):
     if uploaded_files:
         if not os.path.exists("./data"): os.makedirs("./data")
         
